@@ -13,6 +13,12 @@ struct player {
     struct player *next;
 }; 
 
+/*
+ * given an array of basketball player names and heights (arrays of equal
+ * length, length given by the 1st parameter len), construct a linked
+ * list of struct player, where each node has an individual player's
+ * name and height.  return a pointer to the first node in the linked list.
+ */
 struct player *make_player_list(int len, char *names[], double heights[]) {
     /*
      * Create a linked list of length len of players given an array of
@@ -37,6 +43,9 @@ struct player *make_player_list(int len, char *names[], double heights[]) {
     return list;
 }
 
+/*
+ * print the contents of each node in the struct player linked list.
+ */
 void print_players(struct player *players) {
     while (players != NULL) {
         printf("Name: %-30s Height: %d'%01d\"\n", players->name, (int)players->height, (int)(12.0 * (players->height - (int)players->height)));
@@ -44,6 +53,11 @@ void print_players(struct player *players) {
     }
 }
 
+/*
+ * add a new struct player to the linked list referred to by p_players.
+ * append the new player node to the end of the linked list; return
+ * nothing.
+ */
 void add_player(struct player **p_players, char *name, double height) {
     // append the new player to the end of the list
     struct player *new = malloc(sizeof(struct player));
@@ -60,6 +74,9 @@ void add_player(struct player **p_players, char *name, double height) {
     }
 }
 
+/*
+ * free all nodes on the linked list
+ */
 void free_players(struct player *players) {
     while (players != NULL) {
         free(players);
@@ -83,7 +100,11 @@ int main(int argc, char **argv) {
         7 + 3.0/12.0,
     };
 
+    // call make_player_list to create a linked list of struct player,
+    // containing the player information above (i.e., names and heights).
     struct player *player_list = make_player_list(4, names, heights);
+
+    // ask for one more player's name and his/her height.
     char *name;
     printf("What is the player's name? ");
     fflush(stdout);
@@ -94,9 +115,14 @@ int main(int argc, char **argv) {
     fflush(stdout);
     scanf("%lf", &height);
 
+    // add the new player to the linked list
     add_player(&player_list, name, height);
 
+    // print out the linked list contents
     print_players(player_list);
+
+    // free any heap-allocated memory
     free_players(player_list);
+
     return 0;
 }
